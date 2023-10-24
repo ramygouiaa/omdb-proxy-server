@@ -1,5 +1,6 @@
 package com.omdbproxy.server;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,19 +20,22 @@ import java.net.http.HttpResponse;
 @RequestMapping("api/v1/movie")
 public class Main {
 
-	@GetMapping("{title}")
-	public String getMoviesByTitle(@PathVariable("title") String title) throws
-			URISyntaxException, IOException, InterruptedException {
+    @GetMapping("{title}")
+    public MovieSearchResponse getMoviesByTitle(@PathVariable("title") String title) throws
+            URISyntaxException, IOException, InterruptedException {
 
-		HttpClient client = HttpClient.newHttpClient();
-		HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://www.omdbapi.com/?apikey=fc73afe7&s=" + title)).build();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(new URI("http://www.omdbapi.com/?apikey=fc73afe7&s=" + title)).build();
 
-		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-		return response.body();
-	}
+        ObjectMapper objectMapper = new ObjectMapper();
 
-	public static void main(String[] args) {SpringApplication.run(Main.class, args);}
+        return objectMapper.readValue(response.body(), MovieSearchResponse.class);
+    }
 
+    public static void main(String[] args) {
+        SpringApplication.run(Main.class, args);
+    }
 
 }
