@@ -1,3 +1,5 @@
+com/omdbproxy/server/config/CorsConfig.class
 com/omdbproxy/server/MovieSearchResponse.class
 com/omdbproxy/server/MovieSearchResponse$Movie.class
 com/omdbproxy/server/Main.class
+com/omdbproxy/server/config/CorsConfig$1.class

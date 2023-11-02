@@ -19,7 +19,6 @@ public class CorsConfig {
                         .allowedMethods("*")
                         .allowedOrigins("*")
                         .allowedHeaders("*");
-
             }
         };
 
